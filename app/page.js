@@ -1,13 +1,88 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
-export default function Home() {
+import TripCountMap from "../components/TripCountMap";
+
+const url =
+  "https://geo.abs.gov.au/arcgis/rest/services/ASGS2017/LGA/MapServer/0/query?where=LGA_CODE_2017%20LIKE%20'2%'&outFields=LGA_CODE_2017,LGA_NAME_2017,objectid&geometryPrecision=3&f=geojson";
+
+// List of necessary LGAs, used to filter the fetched geoJSON data
+const namesList = [
+  "Hepburn",
+  "Moorabool",
+  "Greater Geelong",
+  "Wyndham",
+  "Melton",
+  "Golden Plains",
+  "Macedon Ranges",
+  "Hume",
+  "Brimbank",
+  "Hobsons Bay",
+  "Maribyrnong",
+  "Moonee Valley",
+  "Moreland",
+  "Melbourne",
+  "Port Phillip",
+  "Glen Eira",
+  "Bayside",
+  "Stonnington",
+  "Yarra",
+  "Darebin",
+  "Boroondara",
+  "Banyule",
+  "Whittlesea",
+  "Mitchell",
+  "Nillumbik",
+  "Murrindindi",
+  "Yarra Ranges",
+  "Baw Baw",
+  "Cardinia",
+  "Nillumbik",
+  "Manningham",
+  "Maroondah",
+  "Knox",
+  "Whitehorse",
+  "Monash",
+  "Kingston (C) (Vic.)",
+  "Greater Dandenong",
+  "Casey",
+  "Frankston",
+];
+
+// Transform data function
+const transformGeojsonData = (geojson) => {
+  return {
+    ...geojson,
+    features: geojson.features.map((feature, index) => ({
+      ...feature,
+      id: (index + 1).toString().padStart(2, "0"), // Adds ID starting from '01'
+      properties: {
+        name: feature.properties.lga_name_2017.replace(/\s\([A-Z]\)$/, ""), // Uses regex to remove space and any single uppercase letter in parentheses at the end of the string
+      },
+    })),
+  };
+};
+
+export default async function Home() {
+  let res = await fetch(url, { cache: "no-store" });
+  let data = await res.json();
+  const transformedGeojsonData = transformGeojsonData(data);
+  const filteredGeoJSON = transformedGeojsonData.features.filter((element) =>
+    namesList.includes(element.properties.name)
+  );
+  const geoJSON = {
+    type: "FeatureCollection",
+    features: filteredGeoJSON,
+  };
+
+  console.log(filteredGeoJSON);
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
+          {/* <code className={styles.code}>app/page.js</code> */}
         </p>
         <div>
           <a
@@ -90,6 +165,7 @@ export default function Home() {
           </p>
         </a>
       </div>
+      <TripCountMap geoJSON={geoJSON} />
     </main>
   );
 }

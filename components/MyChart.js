@@ -60,6 +60,9 @@ const MyChart = (props) => {
             type: "map",
             roam: true,
             map: "Victoria",
+            label: {
+              show: true,
+            },
             emphasis: {
               label: {
                 show: true,

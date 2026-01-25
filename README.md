@@ -1,3 +1,25 @@
+# Project Overview
+Our project, Simulation of Public Transport for Incident Analysis, aims to support transport planners in effectively
+analysing passenger movement in Melbourne's public transport network to help plan for disruptions. Currently, there is
+a lack of robust tools to analyze the impact of these disruptions on passenger flows, making it challenging to plan
+effective responses.​
+
+Our goal was to create a dynamic visualisation platform that allows operators to analyze real or simulated passenger
+demand scenarios. The platform enables planners to upload GTFS and passenger data files, visualize passenger
+movements, and analyze the impact on services, providing data-driven insights for better planning and response.​
+
+We developed the project using agile methodologies, focusing on continuous feedback and improvement. Utilizing
+tools like React for frontend visualization, Next.js and Node.js on the backend, and the open source OpenTripPlanner
+for passenger trip routing we successfully built a system that visualizes passenger movement across Melbourne's
+metropolitan public transport network via train or tram.​
+
+This project has allowed us to apply our technical skills in a real-world context and address complex transport
+challenges, ultimately with the goal that this project can one day help enhance passenger experience and network
+reliability.
+
+
+# Installation Instructions
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
